@@ -9,26 +9,37 @@ app.set("view engine",'ejs');
 if(process.env.NODE_ENV != "production")
     require("dotenv").config();
 
-let location = "london";
-const url = `http://api.weatherapi.com/v1/current.json?key=${process.env.API_KEY}&q=${location}&aqi=no`
-
 async function wheather(url){
     try{
         const response = await axios.get(url);
-        console.log(response.data)
-        const data = {location:{name:response.data.location.name,country:response.data.location.name}}
+        const data = {location:response.data.location.name,...response.data.current.condition,wind:response.data.current.wind_mph,
+                      temp:response.data.current.temp_c ,humidity : response.data.current.humidity};
 
+        const error = null;
+
+        return {data,error};
+        
     }catch(e){
-        console.error(e.response.data)
+        const data = null;
+        const error = e.response.data.error.message;
+
+        return {data,error};
+
     }  
 }
 
-wheather(url);
-
-
-
 app.get('/',(req,res)=>{
-    res.render('main');
+    res.render('main',{data:null,error:null});
+})
+
+app.get('/weather',async(req,res)=>{
+    
+    const city = req.query.city;
+    const url = `http://api.weatherapi.com/v1/current.json?key=${process.env.API_KEY}&q=${city}&aqi=no`
+
+    const {data,error} = await wheather(url);
+
+    res.render('main',{data,error});
 })
 
 const port = process.env.PORT || 3000;

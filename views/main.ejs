@@ -13,38 +13,81 @@
         <div class="header">
 
             <div class="icon">
-                <img src="" alt="">
+                <img src=<%if(error != null){%>
+                        ''
+                    <%} else {%>
+                        <%= data.icon %>
+                    <%}%>
+                    alt="">
             </div>
 
         </div>
 
         <div class="content">
             <div class="general-info">
-                <div class="status">TBD</div>
-                <div class="location">TBD</div>
+                <div class="status">
+                    <p>
+                        <% if(error != null){ %>
+                            <%= error %>
+                        <%} else {%>
+                            <%= data.text %>
+                        <%}%>
+                    </p>
+                </div>
+                <div class="location">
+                    <p>
+                        <% if(error != null){ %>
+                            <%= error %>
+                        <%} else {%>
+                            <%= data.location %>
+                        <%}%>
+                    </p>
+                </div>
             </div>
             
             <div class="detailed-info">
 
                 <div class="detail">
                     <div class="title">WIND</div>
-                    <div class="value">TBD</div>
+                    <div class="value">
+                        <p>
+                            <% if(error != null){ %>
+                                TBD
+                            <%} else {%>
+                                <%= data.wind %>
+                            <%}%>
+                        </p>
+                    </div>
                 </div>
 
                 <div class="detail border">
                     <div class="title">TEMP</div>
-                    <div class="value">TBD</div>
+                    <div class="value">
+                        <p>
+                            <% if(error != null){ %>
+                                TBD
+                            <%} else {%>
+                                <%= data.temp %>
+                            <%}%>
+                        </p>
+                    </div>
                 </div>
 
                 <div class="detail">
-                    <div class="title">SS</div>
-                    <div class="value">TBD</div>
+                    <div class="title">HUMIDITY</div>
+                    <div class="value"><p>
+                        <% if(error != null){ %>
+                            TBD
+                        <%} else {%>
+                            <%= data.humidity %>
+                        <%}%>
+                    </p></div>
                 </div>
 
             </div>
 
             <div class="city-search-container">
-                <form action="/weather" method="post">
+                <form action="/weather" method="get ">
                     <input type="text" name="city" class="city-search" placeholder="Enter Location">
                     <input type="submit" class="btn" value="submit">
                 </form>
